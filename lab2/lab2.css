@@ -1,0 +1,42 @@
+html{
+	background-image: url(back3.jpg);
+}
+h1{
+	
+   	font-size: 30px;
+   	text-align: center;
+   	text-transform: uppercase;
+   	font-family:Georgia;
+   	color: #085e59;
+}
+.block1{
+	margin-top: 20px;
+	margin-left: 200px;
+	margin-right: 200px;
+	font-size: 20px;
+	color: #03172e;
+	font-weight: bold; 	 	
+}
+.img_1{
+	width: 600px; 
+	height: 600px;
+	margin-left: 200px;
+	border: 10px solid white;
+}
+
+.info_picture{
+	width: 40%;
+	margin-left: 800px;
+	padding: 30px;
+	margin-top:-700px;
+	font-family:Georgia;
+	font-size: 20px;
+	font-style: italic;
+}
+h2{
+	text-align: center;
+	font-size: 40px;
+	color: gray;
+	font-style: normal;
+
+}
