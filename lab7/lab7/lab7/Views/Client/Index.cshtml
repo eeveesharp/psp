@@ -1,0 +1,48 @@
+﻿@model List<lab7.Models.Client>
+
+@{
+    ViewData["Title"] = "Client Page";
+}
+
+<div class="text-center">
+    @Html.ActionLink("Add user", "Add")
+
+    @if (Model.Count > 0)
+    {
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Отчество</th>
+
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Id)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(model => item.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(model => item.SecondName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(model => item.ThirdName)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink(" Edit ", "Edit", new { id = item.Id, item })
+                        @Html.ActionLink(" Delete ", "Delete", new { id = item.Id })
+                    </td>
+
+                </tr>
+            }
+        </table>
+    }
+</div>
