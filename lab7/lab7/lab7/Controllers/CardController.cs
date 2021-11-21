@@ -23,8 +23,70 @@ namespace lab7.Controllers
         public IActionResult Index()
         {
             var model = _cardServices.GetAll();
-
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Put(int id)
+        {
+            var model = _cardServices.GetById(id);
+            OperationCardViewModel operationCardViewModel = new OperationCardViewModel()
+            {
+                Id = model.Id,
+            };
+
+            return View(operationCardViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Put(OperationCardViewModel operationCardViewModel)
+        {
+            var card = _cardServices.GetById(operationCardViewModel.Id);
+
+            if (operationCardViewModel.PutMoney < 0)
+            {
+                ModelState.AddModelError("PutMoney", "вы положить меньше нуля");
+            }
+            else
+            {
+                card.Money = card.Money + operationCardViewModel.PutMoney;
+                _cardServices.Edit(operationCardViewModel.Id, card);
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Withdraw(int id)
+        {
+            var model = _cardServices.GetById(id);
+            OperationCardViewModel operationCardViewModel = new OperationCardViewModel()
+            {
+                Id = model.Id,
+            };
+
+            return View(operationCardViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Withdraw(OperationCardViewModel operationCardViewModel)
+        {
+            var card = _cardServices.GetById(operationCardViewModel.Id);
+
+            if (operationCardViewModel.WithdrawMoney < 0)
+            {
+                ModelState.AddModelError("WithdrawMoney", "вы хоитите положить меньше нуля");
+            }
+            else if (card.Money < operationCardViewModel.WithdrawMoney)
+            {
+                ModelState.AddModelError("WithdrawMoney", "Вы хатите снять больше деняк больше чим есть");
+            }
+            else
+            {
+                card.Money = card.Money - operationCardViewModel.WithdrawMoney;
+                _cardServices.Edit(operationCardViewModel.Id, card);
+            }
+
+            return View();
         }
 
         [HttpGet]

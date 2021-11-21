@@ -31,7 +31,7 @@ namespace lab7
 
             services.AddDbContext<AppDbContext>
                 (options => options.UseSqlServer(
-                    "Server=(localdb)\\mssqllocaldb; Database=Lab7; Persist Security Info=False; MultipleActiveResultSets=True; Trusted_Connection=True;"));
+                    "Server=(localdb)\\mssqllocaldb; Database=Lab7Max; Persist Security Info=False; MultipleActiveResultSets=True; Trusted_Connection=True;"));
 
             services.IoC();
         }
