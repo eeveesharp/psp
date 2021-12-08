@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Desktop\\educational_process\\Educational_Process\\Educational_Process\\Educational_Process.csproj": {}
+    "C:\\Users\\User\\Desktop\\psp\\educational_process\\Educational_Process\\Educational_Process\\Educational_Process.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Desktop\\educational_process\\Educational_Process\\Educational_Process\\Educational_Process.csproj": {
+    "C:\\Users\\User\\Desktop\\psp\\educational_process\\Educational_Process\\Educational_Process\\Educational_Process.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Desktop\\educational_process\\Educational_Process\\Educational_Process\\Educational_Process.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\psp\\educational_process\\Educational_Process\\Educational_Process\\Educational_Process.csproj",
         "projectName": "Educational_Process",
-        "projectPath": "C:\\Users\\User\\Desktop\\educational_process\\Educational_Process\\Educational_Process\\Educational_Process.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\psp\\educational_process\\Educational_Process\\Educational_Process\\Educational_Process.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Desktop\\educational_process\\Educational_Process\\Educational_Process\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\psp\\educational_process\\Educational_Process\\Educational_Process\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -55,6 +55,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.0, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.5, )"
             }
           },
           "imports": [

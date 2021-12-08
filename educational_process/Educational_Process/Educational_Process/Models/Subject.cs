@@ -11,6 +11,6 @@ namespace Educational_Process.Models
 
         public string Name { get; set; }
 
-        public List<StudentPerformance> GroStudentPerformances { get; set; } = new List<StudentPerformance>();
+        public List<StudentPerformance> GroStudentPerformances { get; set; }
     }
 }

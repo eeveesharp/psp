@@ -1,0 +1,48 @@
+﻿@model List<Educational_Process.Models.Teacher>
+
+@{
+    ViewData["Title"] = "StudentPage";
+}
+
+<form asp-controller="Teacher" asp-action="Index">
+    <p>
+        Фамилия преподавателя: <input type="text" name="SearchString" />
+        <input type="submit" value="Поиск" />
+    </p>
+</form>
+
+<span class="AddProduct">@Html.ActionLink("Добавить преподавателя", "Add")</span>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Отчество</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.SecondName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.ThirdName)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Изменить  ", "Edit", new { id = item.Id, item }) |
+                    @Html.ActionLink("Подробнее ", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Удалить ", "Delete", new { id = item.Id })
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
