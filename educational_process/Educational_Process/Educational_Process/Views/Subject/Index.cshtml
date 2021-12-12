@@ -16,8 +16,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
+            <th>#</th>
             <th>Название</th>
+            <th>Преподаватель</th>
             <th></th>
         </tr>
     </thead>
@@ -30,6 +31,9 @@
             </td>
             <td>
                 @Html.DisplayFor(model => item.Name)
+            </td>
+            <td>
+                @($"{item.Teacher.SecondName} {item.Teacher.FirstName} {item.Teacher.ThirdName}")
             </td>
             <td>
                 @Html.ActionLink("Изменить  ", "Edit", new { id = item.Id, item }) |

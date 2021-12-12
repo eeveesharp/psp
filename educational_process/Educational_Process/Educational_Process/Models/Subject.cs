@@ -11,6 +11,10 @@ namespace Educational_Process.Models
 
         public string Name { get; set; }
 
+        public int? TeacherId { get; set; }
+
+        public Teacher Teacher { get; set; }
+
         public List<StudentPerformance> StudentPerformances { get; set; }
     }
 }

@@ -24,10 +24,13 @@ namespace Educational_Process.Controllers
 
         }
         // GET: ProductController/Index
-        public IActionResult Index()
+        public IActionResult Index(string SearchString)
         {
             var model = _groupServices.GetAll();
-
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                model = model.Where(x => x.Name.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
             return View(model);
         }
 

@@ -28,10 +28,15 @@ namespace Educational_Process.Controllers
 
         }
         // GET: ProductController/Index
-        public IActionResult Index()
+        public IActionResult Index(string SearchString)
         {
             var model = _teacherServices.GetAll();
-
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                model = model.Where(x => x.FirstName.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase)
+                || x.SecondName.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase)
+                || x.ThirdName.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
             return View(model);
         }
 
@@ -93,7 +98,7 @@ namespace Educational_Process.Controllers
                 FirstName = model.FirstName,
                 SecondName = model.SecondName,
                 ThirdName = model.ThirdName,
-                SubjectName = model.Subject.Name
+                SubjectName = string.Join(", ", model.Subjects.ToList())
             };
 
             return View("Details", teacherViewModel);

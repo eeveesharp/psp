@@ -6,18 +6,23 @@
 
 <form asp-controller="StudentPerformance" asp-action="Index">
     <p>
-        Оценка: <input type="text" name="SearchString" />
+        Поиск: <input type="text" name="SearchString" />
         <input type="submit" value="Поиск" />
     </p>
 </form>
 
 <span class="AddProduct">@Html.ActionLink("Добавить успеваемость", "Add")</span>
-
+<br />
+@Html.ActionLink("Студенты с тройками", "Index", new { sort = "with3" }) |
+@Html.ActionLink("Студенты без троек", "Index", new { sort = "without3" }) |
+@Html.ActionLink("Студенты отличники", "Index", new { sort = "higherThan8" }) | 
+@Html.ActionLink("Студенты не сдавшие", "Index", new { sort = "notpassed" }) |
 <table class="table">
     <thead>
         <tr>
-            <th>Id Студента</th>
-            <th>Id Предмета</th>
+            <th>Студент</th>
+            <th>Группа</th>
+            <th>Предмет</th>
             <th>Дата сдачи</th>
             <th>Оценка</th>
             <th></th>
@@ -28,10 +33,13 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(model => item.StudentId)
+                @($"{item.Student.SecondName} {item.Student.FirstName} {item.Student.ThirdName}")
             </td>
             <td>
-                @Html.DisplayFor(model => item.SubjectId)
+                @($"{item.Student.Group.Name}")
+            </td>
+            <td>
+                @($"{item.Subject.Name}")
             </td>
             <td>
                 @Html.DisplayFor(model => item.ExamDate)
@@ -41,7 +49,7 @@
             </td>
 
             <td>
-                @Html.ActionLink("Изменить  ", "Edit", new { id = item.Id, item }) |
+                @Html.ActionLink("Изменить  ", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Подробнее ", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Удалить ", "Delete", new { id = item.Id })
             </td>

@@ -34,10 +34,35 @@ namespace Educational_Process.Controllers
 
         }
         // GET: ProductController/Index
-        public IActionResult Index()
+        public IActionResult Index(string SearchString, string sort)
         {
             var model = _studentPerformanceServices.GetAll();
 
+            switch (sort)
+            {
+                case "with3":
+                    model = model.Where(x => x.Mark == 3).ToList();
+                    break;
+                case "without3":
+                    model = model.Where(x => x.Mark > 3).ToList();
+                    break;
+                case "higherThan8":
+                    model = model.Where(x => x.Mark > 8).ToList();
+                    break;
+                case "notpassed":
+                    model = model.Where(x => x.Mark < 3).ToList();
+                    break;
+            }
+
+            if (int.TryParse(SearchString, out int a))
+            {
+                model = model.Where(x => x.Mark == a).ToList();
+            }
+            else if (!string.IsNullOrEmpty(SearchString))
+            {
+                model = model.Where(x => x.Subject.Name.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase)
+                || x.Student.Group.Name.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
             return View(model);
         }
 
@@ -96,16 +121,7 @@ namespace Educational_Process.Controllers
         {
             var model = _studentPerformanceServices.GetById(id);
 
-            StudentPerformanceViewModel studentPerformanceViewModel = new StudentPerformanceViewModel()
-            {
-                Id = model.Id,
-                StudentSecondName = model.Student.SecondName,
-                SubjectName = model.Subject.Name,
-                ExamDate = model.ExamDate,
-                Mark = model.Mark
-            };
-
-            return View("Details", studentPerformanceViewModel);
+            return View("Details", model);
         }
     }
 }

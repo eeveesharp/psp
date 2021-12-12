@@ -15,10 +15,6 @@ namespace Educational_Process.Models
 
         public string ThirdName { get; set; }
 
-        public int SubjectId { get; set; }
-
-        public Subject Subject { get; set; }
-
         public List<Subject> Subjects { get; set; }
     }
 }
