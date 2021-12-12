@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Educational_Process.Models
 {
-    public class Teacher
+    public class TeacherViewModel
     {
         public int Id { get; set; }
 
@@ -15,10 +15,7 @@ namespace Educational_Process.Models
 
         public string ThirdName { get; set; }
 
-        public int SubjectId { get; set; }
+        public string SubjectName { get; set; }
 
-        public Subject Subject { get; set; }
-
-        public List<Subject> Subjects { get; set; }
     }
 }

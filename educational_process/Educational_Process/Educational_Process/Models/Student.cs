@@ -19,8 +19,8 @@ namespace Educational_Process.Models
 
         public Group Group { get; set; }
 
-        public List<Group> Groups { get; set; } = new List<Group>();
+        public List<Group> Groups { get; set; } 
 
-        public List<StudentPerformance> GroStudentPerformances { get; set; } = new List<StudentPerformance>();
+        public List<StudentPerformance> StudentPerformances { get; set; }
     }
 }

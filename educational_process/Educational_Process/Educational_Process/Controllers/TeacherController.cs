@@ -7,18 +7,22 @@ using Educational_Process.Models;
 using Educational_Process.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Educational_Process.Controllers
 {
     public class TeacherController : Controller
     {
         private readonly ITeacherService _teacherServices;
+        private readonly ISubjectService _subjectServices;
         private readonly EducationalProcessContext _educationalProcessContext;
 
         public TeacherController(
-             ITeacherService teacherServices,
+            ITeacherService teacherServices,
+            ISubjectService subjectServices,
             EducationalProcessContext educationalProcessContext)
         {
+            _subjectServices = subjectServices;
             _teacherServices = teacherServices;
             _educationalProcessContext = educationalProcessContext;
 
@@ -35,6 +39,8 @@ namespace Educational_Process.Controllers
         public IActionResult Add(int id)
         {
             var model = _teacherServices.GetById(id);
+            var subjects = _subjectServices.GetAll();
+            ViewBag.Subjects = new SelectList(subjects, "Id", "Name");
 
             return View(model);
         }
@@ -81,7 +87,16 @@ namespace Educational_Process.Controllers
         {
             var model = _teacherServices.GetById(id);
 
-            return View("Details", model);
+            TeacherViewModel teacherViewModel = new TeacherViewModel()
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                SecondName = model.SecondName,
+                ThirdName = model.ThirdName,
+                SubjectName = model.Subject.Name
+            };
+
+            return View("Details", teacherViewModel);
         }
     }
 }

@@ -7,34 +7,47 @@ using Educational_Process.Models;
 using Educational_Process.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Educational_Process.Controllers
 {
     public class StudentController : Controller
     {
         private readonly IStudentService _studentServices;
+        private readonly IGroupService _groupServices;
         private readonly EducationalProcessContext _educationalProcessContext;
 
         public StudentController(
             IStudentService studentServices,
+            IGroupService groupServices,
             EducationalProcessContext educationalProcessContext)
         {
             _studentServices = studentServices;
+            _groupServices = groupServices;
             _educationalProcessContext = educationalProcessContext;
 
         }
         // GET: ProductController/Index
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var model = _studentServices.GetAll();
+            var movies = from m in _educationalProcessContext.Students
+                         select m;
 
-            return View(model);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.SecondName.Contains(searchString));
+            }
+
+            return View(await movies.ToListAsync());
         }
 
         [HttpGet]
         public IActionResult Add(int id)
         {
             var model = _studentServices.GetById(id);
+            var groups = _groupServices.GetAll();
+            ViewBag.Groups = new SelectList(groups, "Id", "Name");
 
             return View(model);
         }
@@ -81,7 +94,16 @@ namespace Educational_Process.Controllers
         {
             var model = _studentServices.GetById(id);
 
-            return View("Details", model);
+            StudentViewModel studentViewModel = new StudentViewModel()
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                SecondName = model.SecondName,
+                ThirdName = model.ThirdName,
+                GroupName = model.Group.Name
+            };
+
+            return View("Details", studentViewModel);
         }
     }
 }

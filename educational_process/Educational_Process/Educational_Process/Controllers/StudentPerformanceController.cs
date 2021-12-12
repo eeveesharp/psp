@@ -7,19 +7,29 @@ using Educational_Process.Models;
 using Educational_Process.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Educational_Process.Controllers
 {
     public class StudentPerformanceController : Controller
     {
         private readonly IStudentPerformanceService _studentPerformanceServices;
+        private readonly IStudentService _studentServices;
+        private readonly ISubjectService _subjectServices;
+        private readonly ITeacherService _teacherServices;
         private readonly EducationalProcessContext _educationalProcessContext;
 
         public StudentPerformanceController(
             IStudentPerformanceService studentPerformanceServices,
+            IStudentService studentServices,
+            ISubjectService subjectServices,
+            ITeacherService teacherServices,
             EducationalProcessContext educationalProcessContext)
         {
+            _teacherServices = teacherServices;
             _studentPerformanceServices = studentPerformanceServices;
+            _studentServices = studentServices;
+            _subjectServices = subjectServices;
             _educationalProcessContext = educationalProcessContext;
 
         }
@@ -35,6 +45,11 @@ namespace Educational_Process.Controllers
         public IActionResult Add(int id)
         {
             var model = _studentPerformanceServices.GetById(id);
+            var students = _studentServices.GetAll();
+            var subjects = _subjectServices.GetAll();
+
+            ViewBag.Students = new SelectList(students, "Id", "SecondName");
+            ViewBag.Subjects = new SelectList(subjects, "Id", "Name");
 
             return View(model);
         }
@@ -81,7 +96,16 @@ namespace Educational_Process.Controllers
         {
             var model = _studentPerformanceServices.GetById(id);
 
-            return View("Details", model);
+            StudentPerformanceViewModel studentPerformanceViewModel = new StudentPerformanceViewModel()
+            {
+                Id = model.Id,
+                StudentSecondName = model.Student.SecondName,
+                SubjectName = model.Subject.Name,
+                ExamDate = model.ExamDate,
+                Mark = model.Mark
+            };
+
+            return View("Details", studentPerformanceViewModel);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Educational_Process.Controllers
     public class SubjectController : Controller
     {
         private readonly ISubjectService _subjectServices;
+
         private readonly EducationalProcessContext _educationalProcessContext;
 
         public SubjectController(
@@ -35,6 +36,7 @@ namespace Educational_Process.Controllers
         public IActionResult Add(int id)
         {
             var model = _subjectServices.GetById(id);
+
 
             return View(model);
         }

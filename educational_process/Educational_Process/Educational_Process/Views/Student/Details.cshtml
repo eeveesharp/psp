@@ -1,4 +1,4 @@
-﻿@model Educational_Process.Models.Student
+﻿@model Educational_Process.Models.StudentViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -35,10 +35,10 @@
             @Html.DisplayFor(model => model.ThirdName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GroupId)
+            @Html.DisplayNameFor(model => model.GroupName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GroupId)
+            @Html.DisplayFor(model => model.GroupName)
         </dd>
     </dl>
 </div>
