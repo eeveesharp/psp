@@ -1,4 +1,5 @@
-﻿using Educational_Process.Models;
+﻿using ClosedXML.Excel;
+using Educational_Process.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,5 +9,7 @@ namespace Educational_Process.Services.Interfaces
 {
     public interface IStudentPerformanceService:IService<StudentPerformance>
     {
+        XLWorkbook GetFullWorkbook();
+        XLWorkbook GetWorkbookBySubject(int subjectId);
     }
 }

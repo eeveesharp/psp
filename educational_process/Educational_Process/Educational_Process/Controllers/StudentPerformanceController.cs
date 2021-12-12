@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using Educational_Process.Domain;
 using Educational_Process.Models;
 using Educational_Process.Services.Interfaces;
@@ -18,7 +20,7 @@ namespace Educational_Process.Controllers
         private readonly ISubjectService _subjectServices;
         private readonly ITeacherService _teacherServices;
         private readonly EducationalProcessContext _educationalProcessContext;
-
+        private XLWorkbook _xLWorkbook;
         public StudentPerformanceController(
             IStudentPerformanceService studentPerformanceServices,
             IStudentService studentServices,
@@ -33,11 +35,34 @@ namespace Educational_Process.Controllers
             _educationalProcessContext = educationalProcessContext;
 
         }
+
+        [HttpGet]
+        public IActionResult Download(string subjectId)
+        {
+            if (int.TryParse(subjectId, out int id))
+            {
+                _xLWorkbook = _studentPerformanceServices.GetWorkbookBySubject(id);
+            }
+            else
+            {
+                _xLWorkbook = _studentPerformanceServices.GetFullWorkbook();
+            }
+
+            using var stream = new MemoryStream();
+            _xLWorkbook.SaveAs(stream);
+            var content = stream.ToArray();
+
+            _xLWorkbook.Dispose();
+            return File(content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "Успеваемось.xlsx");
+        }
+
         // GET: ProductController/Index
         public IActionResult Index(string SearchString, string sort)
         {
             var model = _studentPerformanceServices.GetAll();
-
+            ViewBag.Subject = new SelectList(_subjectServices.GetAll(), "Id", "Name");
             switch (sort)
             {
                 case "with3":

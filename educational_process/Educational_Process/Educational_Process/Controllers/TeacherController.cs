@@ -98,7 +98,7 @@ namespace Educational_Process.Controllers
                 FirstName = model.FirstName,
                 SecondName = model.SecondName,
                 ThirdName = model.ThirdName,
-                SubjectName = string.Join(", ", model.Subjects.ToList())
+                SubjectName = model.Subjects is null ? "нет предметов" : string.Join(", ", model.Subjects.Select(x => x.Name))
             };
 
             return View("Details", teacherViewModel);

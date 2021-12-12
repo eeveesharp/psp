@@ -1,6 +1,7 @@
 ﻿using Educational_Process.Domain;
 using Educational_Process.Models;
 using Educational_Process.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Educational_Process.Services.Implementations
 {
-    public class TeacherService:ITeacherService
+    public class TeacherService : ITeacherService
     {
         private readonly EducationalProcessContext _educationalProcessContext;
 
@@ -32,12 +33,19 @@ namespace Educational_Process.Services.Implementations
 
         public IEnumerable<Teacher> GetAll()
         {
-            return _educationalProcessContext.Teachers.ToList();
+            return _educationalProcessContext.Teachers
+                .Include(x => x.Subjects)
+                .AsNoTracking()
+                .ToList();
         }
 
         public Teacher GetById(int id)
         {
-            return _educationalProcessContext.Teachers.Where(contract => contract.Id == id).FirstOrDefault();
+            return _educationalProcessContext.Teachers
+                .Include(x => x.Subjects)
+                .AsNoTracking()
+                .Where(contract => contract.Id == id)
+                .FirstOrDefault();
         }
 
         public void Create(Teacher item)

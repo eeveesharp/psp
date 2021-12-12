@@ -1,6 +1,7 @@
 ﻿using Educational_Process.Domain;
 using Educational_Process.Models;
 using Educational_Process.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,12 +33,17 @@ namespace Educational_Process.Services.Implementations
 
         public IEnumerable<Student> GetAll()
         {
-            return _educationalProcessContext.Students.ToList();
+            return _educationalProcessContext.Students
+                .Include(x=>x.Group)
+                .AsNoTracking()
+                .ToList();
         }
 
         public Student GetById(int id)
         {
-            return _educationalProcessContext.Students.Where(contract => contract.Id == id).FirstOrDefault();
+            return _educationalProcessContext.Students
+                                .Include(x => x.Group)
+                .AsNoTracking().Where(contract => contract.Id == id).FirstOrDefault();
         }
 
         public void Create(Student item)

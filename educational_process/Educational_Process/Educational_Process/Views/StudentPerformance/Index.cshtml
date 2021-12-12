@@ -11,11 +11,28 @@
     </p>
 </form>
 
-<span class="AddProduct">@Html.ActionLink("Добавить успеваемость", "Add")</span>
+<br />
+
+@Html.ActionLink("Добавить успеваемость", "Add")
+
+<br />
+
+@Html.ActionLink("Скачать полный отчет", "Download", new { subjectId = "" })
+
+<br />
+
+<form asp-action="Download" method="get" class="form-inline ml-auto">
+    <p>Скачать отчет по предмету</p>
+    <div class="form-inline">
+        <select name="subjectId" asp-items="ViewBag.Subject"></select>
+    </div>
+    <button class="btn btn-primary" type="submit">Скачать</button>
+</form>
+
 <br />
 @Html.ActionLink("Студенты с тройками", "Index", new { sort = "with3" }) |
 @Html.ActionLink("Студенты без троек", "Index", new { sort = "without3" }) |
-@Html.ActionLink("Студенты отличники", "Index", new { sort = "higherThan8" }) | 
+@Html.ActionLink("Студенты отличники", "Index", new { sort = "higherThan8" }) |
 @Html.ActionLink("Студенты не сдавшие", "Index", new { sort = "notpassed" }) |
 <table class="table">
     <thead>
@@ -31,30 +48,30 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @($"{item.Student.SecondName} {item.Student.FirstName} {item.Student.ThirdName}")
-            </td>
-            <td>
-                @($"{item.Student.Group.Name}")
-            </td>
-            <td>
-                @($"{item.Subject.Name}")
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ExamDate)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Mark)
-            </td>
+            <tr>
+                <td>
+                    @($"{item.Student.SecondName} {item.Student.FirstName} {item.Student.ThirdName}")
+                </td>
+                <td>
+                    @($"{item.Student.Group.Name}")
+                </td>
+                <td>
+                    @($"{item.Subject.Name}")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.ExamDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Mark)
+                </td>
 
-            <td>
-                @Html.ActionLink("Изменить  ", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Подробнее ", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Удалить ", "Delete", new { id = item.Id })
-            </td>
+                <td>
+                    @Html.ActionLink("Изменить  ", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Подробнее ", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Удалить ", "Delete", new { id = item.Id })
+                </td>
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>
