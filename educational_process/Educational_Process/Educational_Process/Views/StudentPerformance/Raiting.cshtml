@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Educational_Process.Models.StudentPerformance>
+
+@{
+    ViewData["Title"] = "Raiting";
+}
+
+<h1>Рейтинг</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Студент</th>
+            <th>Группа</th>
+            <th>Средний балл</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @($"{item.Student.SecondName} {item.Student.FirstName} {item.Student.ThirdName}")
+            </td>
+            <td>
+                @($"{item.Student.Group.Name}")
+            </td>
+            <td>
+                @($"{item.Subject.Name}")
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -20,6 +20,7 @@ namespace Educational_Process.Controllers
         private readonly ISubjectService _subjectServices;
         private readonly ITeacherService _teacherServices;
         private readonly EducationalProcessContext _educationalProcessContext;
+        private delegate string Foo(int st);
         private XLWorkbook _xLWorkbook;
         public StudentPerformanceController(
             IStudentPerformanceService studentPerformanceServices,
@@ -91,6 +92,26 @@ namespace Educational_Process.Controllers
             return View(model);
         }
 
+        public IActionResult Raiting()
+        {
+            var model = _studentPerformanceServices.GetAll().ToList();
+
+            Foo foo = (int studentId) => {
+                var Ball = _studentPerformanceServices.GetAll()
+                        .Where(x => x.StudentId == studentId)
+                        .Select(x => x.Mark).Sum();
+                var quantity = _studentPerformanceServices.GetAll()
+                    .Where(x => x.StudentId == studentId)
+                    .Select(x => x.Mark).Count();
+                var sredniyBall = Math.Round(Convert.ToDouble(Ball) / quantity, 2).ToString();
+                return sredniyBall;
+            };
+
+            model.ForEach(x => x.Subject.Name = foo(x.StudentId));
+            model = model.GroupBy(x => x.Student.SecondName).Select(x => x.First()).OrderByDescending(x => Convert.ToDouble(x.Subject.Name)).ToList();
+            return View(model);
+        }
+
         [HttpGet]
         public IActionResult Add(int id)
         {
@@ -129,6 +150,11 @@ namespace Educational_Process.Controllers
         public IActionResult Edit(int id)
         {
             var model = _studentPerformanceServices.GetById(id);
+            var students = _studentServices.GetAll();
+            var subjects = _subjectServices.GetAll();
+
+            ViewBag.Students = new SelectList(students, "Id", "SecondName");
+            ViewBag.Subjects = new SelectList(subjects, "Id", "Name");
 
             return View("Edit", model);
         }
@@ -145,6 +171,21 @@ namespace Educational_Process.Controllers
         public IActionResult Details(int id)
         {
             var model = _studentPerformanceServices.GetById(id);
+
+            var subject = string.Join(";",_studentPerformanceServices.GetAll()
+                .Where(x => x.StudentId == model.StudentId)
+                .Select(x => $"{x.Subject.Name} - {x.Mark}," +
+                $" Преподаватель: {x.Subject.Teacher.SecondName} {x.Subject.Teacher.FirstName} {x.Subject.Teacher.ThirdName}," +
+                $" Дата сдачи: {x.ExamDate}"));
+
+            var Ball = _studentPerformanceServices.GetAll()
+                 .Where(x => x.StudentId == model.StudentId)
+                 .Select(x => x.Mark).Sum();
+            var quantity = _studentPerformanceServices.GetAll()
+                 .Where(x => x.StudentId == model.StudentId)
+                 .Select(x => x.Mark).Count();
+            var sredniyBall = Math.Round(Convert.ToDouble(Ball) / quantity, 2).ToString();
+            model.Subject.Name = $"{subject};Средний балл: {sredniyBall}";
 
             return View("Details", model);
         }
